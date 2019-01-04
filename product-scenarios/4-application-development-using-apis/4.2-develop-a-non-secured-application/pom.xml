@@ -36,6 +36,7 @@
     <url>http://wso2.org</url>
 
     <modules>
+        <module>4.2.1.generate-tokens-for-applications</module>
     </modules>
 
 </project>

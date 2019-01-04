@@ -64,7 +64,7 @@ public class ScenarioTestBase {
     private static Properties infraProperties;
     public static final String PUBLISHER_URL = "PublisherUrl";
     public static final String STORE_URL = "StoreUrl";
-    public static final String ADMIN_URL = "AdminUrl";
+    static final String ADMIN_URL = "AdminUrl";
     public static final String KEYAMANAGER_URL = "KeyManagerUrl";
     public static final String GATEWAYHTTPS_URL = "GatewayHttpsUrl";
     public static final String SERVICE_ENDPOINT = "CarbonServerUrl";

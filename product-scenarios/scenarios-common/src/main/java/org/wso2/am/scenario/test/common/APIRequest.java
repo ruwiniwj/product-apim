@@ -85,9 +85,9 @@ public class APIRequest extends AbstractRequest {
         this.tiersCollection = tiersCollection;
         try {
             this.endpoint =
-                    new JSONObject("{\"production_endpoints\":{\"url\":\""
-                            + endpointUrl + "\",\"config\":null},\"endpoint_type\":\""
-                            + "http" + "\"}");
+                    new JSONObject("{\"production_endpoints\":{\"url\":\""+ endpointUrl + "\",\"config\":null}," +
+                            "\"sandbox_endpoints\":{\"url\":\""+ endpointUrl + "\",\"config\":null}," +
+                            "\"endpoint_type\":\"http\"}");
         } catch (JSONException e) {
             log.error("JSON construct error", e);
         }
@@ -359,7 +359,12 @@ public class APIRequest extends AbstractRequest {
 
     public void constructSwagger() {
         setSwagger("{\"swagger\":\"2.0\",\"paths\":{" + "\"" + resource + "\""
-                + ":{\"post\":{\"parameters\":[{\"name\":\"Payload\",\"description\":\"Request Body\",\"required\":false,\"in\":\"body\",\"schema\":{\"type\":\"object\",\"properties\":{\"payload\":{\"type\":\"string\"}}}}],\"responses\":{\"200\":{\"description\":\"\"}}}}},\"info\":{\"title\": "
-                + "\"" + name + "\"" + ",\"version\":" + "\"" + version + "\"" + "}}");
+                + ":{\"post\":{\"x-auth-type\":\"Application %26 Application User\",\"x-throttling-tier\":\""
+                + tiersCollection + "\",\"parameters\":[{\"name\":\"Payload\",\"description\":\"Request Body\"," +
+                "\"required\":false,\"in\":\"body\",\"schema\":{\"type\":\"object\",\"properties\":{\"payload\":" +
+                "{\"type\":\"string\"}}}}],\"responses\":{\"200\":{\"description\":\"\"}}},\"get\":{\"x-auth-type\":" +
+                "\"Application %26 Application User\",\"x-throttling-tier\":\"" + tiersCollection + "\",\"responses\"" +
+                ":{\"200\":{\"description\":\"\"}}}}},\"info\":{\"title\": " + "\"" + name + "\"" + ",\"version\":" +
+                "\"" + version + "\"" + "}}");
     }
 }
