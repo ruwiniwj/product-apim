@@ -85,9 +85,28 @@ public class APIRequest extends AbstractRequest {
         this.tiersCollection = tiersCollection;
         try {
             this.endpoint =
-                    new JSONObject("{\"production_endpoints\":{\"url\":\""+ endpointUrl + "\",\"config\":null}," +
-                            "\"sandbox_endpoints\":{\"url\":\""+ endpointUrl + "\",\"config\":null}," +
-                            "\"endpoint_type\":\"http\"}");
+                    new JSONObject("{\"production_endpoints\":{\"url\":\""
+                            + endpointUrl + "\",\"config\":null},\"endpoint_type\":\""
+                            + "http" + "\"}");
+        } catch (JSONException e) {
+            log.error("JSON construct error", e);
+        }
+        constructSwagger();
+    }
+
+    public APIRequest(String name, String context, String visibility, String version, String resource,
+                      String tiersCollection, URL productionEndpointUrl, URL sandboxEndpointUrl) {
+        this.name = name;
+        this.context = context;
+        this.visibility = visibility;
+        this.version = version;
+        this.resource = resource;
+        this.tiersCollection = tiersCollection;
+        try {
+            this.endpoint =
+                    new JSONObject("{\"production_endpoints\":{\"url\":\""+ productionEndpointUrl + "\"," +
+                            "\"config\":null},\"sandbox_endpoints\":{\"url\":\""+ sandboxEndpointUrl + "\"," +
+                            "\"config\":null},\"endpoint_type\":\"http\"}");
         } catch (JSONException e) {
             log.error("JSON construct error", e);
         }

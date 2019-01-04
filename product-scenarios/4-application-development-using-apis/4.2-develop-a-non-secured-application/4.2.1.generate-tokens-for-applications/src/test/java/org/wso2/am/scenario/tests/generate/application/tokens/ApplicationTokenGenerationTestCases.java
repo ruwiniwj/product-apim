@@ -48,7 +48,6 @@ import static org.testng.Assert.assertTrue;
 public class ApplicationTokenGenerationTestCases extends ScenarioTestBase {
     private APIStoreRestClient apiStore;
     private APIPublisherRestClient apiPublisher;
-    private String gatewayHttpsURL;
     private List<String> applicationsList = new ArrayList<>();
     private List<String> apiList = new ArrayList<>();
     private static final String ADMIN_LOGIN_USERNAME = "admin";
@@ -77,25 +76,8 @@ public class ApplicationTokenGenerationTestCases extends ScenarioTestBase {
 
     @BeforeClass(alwaysRun = true)
     public void init() throws APIManagerIntegrationTestException {
-        Properties infraProperties = getDeploymentProperties();
-        gatewayHttpsURL = infraProperties.getProperty(GATEWAY_HTTPS_URL);
-
-        if(gatewayHttpsURL == null) {
-            gatewayHttpsURL = "https://localhost:8243/";
-        }
-
-        String storeURL = infraProperties.getProperty(STORE_URL);
-        if (storeURL == null) {
-            storeURL = DEFAULT_URL_PREFIX + "store";
-        }
-        setKeyStoreProperties();
         apiStore = new APIStoreRestClient(storeURL);
         apiStore.login(ADMIN_LOGIN_USERNAME, ADMIN_LOGIN_PW);
-
-        String publisherURL = infraProperties.getProperty(PUBLISHER_URL);
-        if (publisherURL == null) {
-            publisherURL = DEFAULT_URL_PREFIX + "publisher";
-        }
         apiPublisher = new APIPublisherRestClient(publisherURL);
         apiPublisher.login(ADMIN_LOGIN_USERNAME, ADMIN_LOGIN_PW);
     }
@@ -125,7 +107,9 @@ public class ApplicationTokenGenerationTestCases extends ScenarioTestBase {
 
     private void createAPI(String apiName) throws Exception {
         APIRequest apiRequest = new APIRequest(apiName, "/" + apiName, "public", API_VERSION,
-                API_RESOURCE, APIMIntegrationConstants.APPLICATION_TIER.UNLIMITED, new URL("https://localhost:9443/am/sample/pizzashack/v1/api/"));
+                API_RESOURCE, APIMIntegrationConstants.APPLICATION_TIER.UNLIMITED,
+                new URL("https://localhost:9443/am/sample/pizzashack/v1/api/"),
+                new URL("https://localhost:9443/am/sample/pizzashack/v1/api/"));
         HttpResponse createAPIResponse = apiPublisher.addAPI(apiRequest);
         apiList.add(apiName);
         verifyResponse(createAPIResponse);
